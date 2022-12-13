@@ -8,6 +8,11 @@
 		"plugin:@typescript-eslint/recommended"
 	],
 	"rules": {
+		"@typescript-eslint/no-unused-vars": [
+			"error",
+			{ "argsIgnorePattern": "^_" }
+		],
+		"node/no-unsupported-features/es-syntax": "off",
 		"no-console": 0,
 		"for-direction": 2,
 		"no-const-assign": 2,

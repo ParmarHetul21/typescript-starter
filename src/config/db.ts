@@ -7,7 +7,8 @@ prisma.$on("beforeExit", async () => {
 });
 
 const db = {
-	user: prisma.user
+	user: prisma.user,
+	persistentToken: prisma.persistent_Token
 };
 
 export default db;

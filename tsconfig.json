@@ -1,10 +1,9 @@
 {
 	"compilerOptions": {
-		"target": "es2016",
-		"lib": ["es6"],
+		"target": "ES2020",
+		"lib": ["ES2020"],
 		"module": "commonjs",
 		"resolveJsonModule": true,
-		"allowJs": true,
 		"checkJs": true,
 		"outDir": "build",
 		"importHelpers": true,
@@ -24,10 +23,7 @@
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
-		"noImplicitOverride": true,
-		"allowUnusedLabels": true,
-		"allowUnreachableCode": true,
-		"skipLibCheck": true
+		"noImplicitOverride": true
 	},
 	"include": ["src/**/*"]
 }
