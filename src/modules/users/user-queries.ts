@@ -1,5 +1,5 @@
 import db from "../../config/db";
-import { IPersisted, IUserRegister } from "./typings/schemas";
+import { IPersisted, Itokens, IUserRegister } from "./typings/schemas";
 
 export const createUser = async (data: IUserRegister) => {
 	const user = await db.user.create({ data });
@@ -35,9 +35,44 @@ export const fetchAll = async () => {
 export const persistedUser = async (token: string) => {
 	const usersPersisted = await db.persistentToken.findFirst({
 		where: {
-			accessToken: token
+			OR: [
+				{
+					accessToken: token
+				},
+				{
+					refreshToken: token
+				}
+			]
 		}
 	});
 
 	return usersPersisted;
+};
+
+export const getUserById = async (id: number) => {
+	const user = await db.user.findFirst({
+		where: {
+			id: id
+		},
+		select: {
+			email: true
+		}
+	});
+
+	return user;
+};
+
+export const updatePersistedUser = async (tokens: Itokens, id: number) => {
+	const updateTokens = await db.persistentToken.update({
+		where: {
+			id: id
+		},
+		data: {
+			accessToken: tokens.accessToken,
+			publicKey: tokens.publicKey,
+			refreshToken: tokens.refreshToken
+		}
+	});
+
+	return updateTokens;
 };

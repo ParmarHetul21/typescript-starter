@@ -1,6 +1,5 @@
-import { createHash, generateKeyPair } from "crypto";
+import { createHash, generateKeyPairSync } from "crypto";
 import { sign } from "jsonwebtoken";
-import util from "util";
 
 /**
  * @param data user password then hash256 password
@@ -16,10 +15,9 @@ export const hashPassword = (data: string) => {
  *
  * @param {IUserRegister} payload - user details
  */
-export const generateAccessToken = async (payload: string) => {
+export const generateAccessToken = (payload: string) => {
 	// generating the access token
-	const generate = util.promisify(generateKeyPair);
-	const keys = await generate("rsa", {
+	const keys = generateKeyPairSync("rsa", {
 		modulusLength: 2048,
 		publicKeyEncoding: {
 			type: "spki",
@@ -31,16 +29,18 @@ export const generateAccessToken = async (payload: string) => {
 		}
 	});
 
-	const jwtToken = sign({ email: payload }, keys.privateKey, {
+	const jwtToken = sign({ email: payload }, keys.privateKey as string, {
+		algorithm: "RS256",
 		expiresIn: "2m"
 	});
-	const refreshToken = sign({ email: payload }, keys.privateKey, {
+	const refreshToken = sign({ email: payload }, keys.privateKey as string, {
+		algorithm: "RS256",
 		expiresIn: "4m"
 	});
 
 	return {
 		accessToken: jwtToken,
-		publicKey: keys.publicKey,
+		publicKey: keys.publicKey as string,
 		refreshToken: refreshToken
 	};
 };
